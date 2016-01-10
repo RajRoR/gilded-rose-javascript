@@ -8,39 +8,51 @@ var items = []
 
 function increaseQuality(item) {
   if (item.quality < 50) {
-    item.quality = item.quality + 1
+    item.quality += 1
   }
 }
 
 function decreaseQuality(item) {
   if (item.quality > 0) {
-    item.quality = item.quality - 1
+    item.quality -= 1
   }
 }
 
-function updateSellIn(item){
-  if (item.name != 'Sulfuras, Hand of Ragnaros') {
-    item.sell_in = item.sell_in - 1;
+function isNotSulfuras(item) {
+  return item.name != 'Sulfuras, Hand of Ragnaros'
+}
+
+function isNotAgedBrie(item) {
+  return item.name != 'Aged Brie'
+}
+
+function isNotBackstagePasses(item) {
+  return item.name != 'Backstage passes to a TAFKAL80ETC concert'
+}
+
+function updateSellIn(item) {
+  if (isNotSulfuras(item)) {
+    item.sell_in -= 1;
   }
 }
 
-function ConjuredItem(item){
-  this.item
-  this.update = function(){
+function sulfurasItem(item) {
+  if (isNotSulfuras(item)) {
+    decreaseQuality(item)
+    conjuredItem(item)
+  }
+}
 
+function conjuredItem(item) {
+  if ((item.name.toLowerCase().indexOf("conjured") > -1)) {
+    decreaseQuality(item)
   }
 }
 
 function update_quality() {
   for (var i = 0; i < items.length; i++) {
-    if (items[i].name != 'Aged Brie' && items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-      if (items[i].name != 'Sulfuras, Hand of Ragnaros') {
-        decreaseQuality(items[i])
-        if ((items[i].name.toLowerCase().indexOf("conjured") > -1)) {
-          decreaseQuality(items[i])
-        }
-      }
-
+    if (isNotAgedBrie(items[i]) && isNotBackstagePasses(items[i])) {
+      sulfurasItem(items[i])
     } else {
       increaseQuality(items[i])
       if (items[i].name == 'Backstage passes to a TAFKAL80ETC concert') {
@@ -54,15 +66,9 @@ function update_quality() {
     }
 
     if (items[i].sell_in < 0) {
-      if (items[i].name != 'Aged Brie') {
-        if (items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-          if (items[i].name != 'Sulfuras, Hand of Ragnaros') {
-            decreaseQuality(items[i])
-            if ((items[i].name.toLowerCase().indexOf("conjured") > -1)) {
-              decreaseQuality(items[i])
-            }
-          }
-
+      if (isNotAgedBrie(items[i])) {
+        if (isNotBackstagePasses(items[i])) {
+          sulfurasItem(items[i])
         } else {
           items[i].quality = 0
         }
