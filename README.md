@@ -1,6 +1,6 @@
 If you want to get cracking on the JavaScript source then do this:
 
-    git clone git@github.com:guyroyse/gilded-rose-javascript.git
+    git@github.com:TrantorPlayground/gilded-rose-javascript.git
 
 Hi and welcome to team Gilded Rose.
 
